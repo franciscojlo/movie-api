@@ -1,1 +1,12 @@
-hello world
+hello worldURL: /
+Timestamp: 7/18/2023, 8:24:36 PM
+
+URL: /favicon.ico
+Timestamp: 7/18/2023, 8:24:36 PM
+
+URL: /
+Timestamp: 7/18/2023, 8:24:39 PM
+
+URL: /favicon.ico
+Timestamp: 7/18/2023, 8:24:39 PM
+
