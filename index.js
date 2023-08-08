@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const uuid = require('uuid');
 
 const top10Movies = [
   {
@@ -65,13 +67,15 @@ const top10Movies = [
   },
 ];
 
-//morgan middleware logs request
+const users = [];
+
+//middleware logs request
 app.use(morgan('dev'));
-
-//serve static files from the "public" directory
 app.use(express.static('public'));
+app.use(bodyParser.json());
 
-//GET request
+
+//Welcome message
 app.get('/', (req, res) => {
   res.send('Welcome to my TopFlicks');
 });
@@ -98,9 +102,86 @@ app.get('/directors/:name', (req, res) => {
   const directorName = req.params.name;
   res.send(`Successful GET request returning data on the director with name: ${directorName}`);
 });
-``
+
+//route to allow new users to register
+app.post('/users', (req, res) => {
+  const { name, password, email, birth_date } = req.body;
+  if (!name || !password || !email) {
+    return res.status(400).send('Name, password, and email are required fields');
+  }
+  const newUser = {
+    id: uuid.v4(),
+    name: name,
+    password: password,
+    email: email,
+    birth_date: birth_date,
+    favoriteMovies: [],
+  };
+  users.push(newUser);
+  res.status(201).json(newUser);
+});
+
+//route to allow users to update their username
+app.put('/users/:id', (req, res) => {
+  const userId = req.params.id;
+  const { name } = req.body;
+  
+  console.log('User ID from URL:', userId);
+  
+  const user = users.find((user) => user.id === userId);
+  console.log('Found User:', user);
+  
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+  
+  user.name = name;
+  console.log('Updated User:', user);
+  
+  res.json(user);
+});
+
+//route to allow users to add a movie to their favorites
+app.post('/users/:id/favorites', (req, res) => {
+  const userId = req.params.id;
+  const { movieId } = req.body;
+  const user = users.find((user) => user.id === userId);
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+  user.favoriteMovies.push(movieId);
+  res.send('Movie added to user favorites successfully');
+});
+
+//route to allow users to remove a movie from their list of favorites
+app.delete('/users/:id/favorites/:movieId', (req, res) => {
+  const userId = req.params.id;
+  const movieId = req.params.movieId;
+  const user = users.find((user) => user.id === userId);
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+  const index = user.favoriteMovies.indexOf(movieId);
+  if (index !== -1) {
+    user.favoriteMovies.splice(index, 1);
+  }
+  res.send('Movie removed from user favorites successfully');
+});
+
+//route to allow existing users to deregister
+app.delete('/users/:id', (req, res) => {
+  const userId = req.params.id;
+  const index = users.findIndex((user) => user.id === userId);
+  if (index !== -1) {
+    users.splice(index, 1);
+    res.send(`User with ID ${userId} unregistered successfully`);
+  } else {
+    res.status(404).send('User not found');
+  }
+});
+
 //error-handling middleware
-app.use((err, req, res, next) =>{
+app.use((err, req, res, next) => {
   console.error('APPLICATION ERROR:', err.stack);
   res.status(500).send("Something went wrong.");
 });

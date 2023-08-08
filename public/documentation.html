@@ -4,21 +4,91 @@
     <title>Movie API Documentation</title>
 </head>
 <body>
-    <h3>1. Get All Movies</h3>
-    <p><strong>URL:</strong> GET /movies</p>
-    <p><strong>Description:</strong> Return a list of all movies.</p>
+    <h1>Movie API Documentation</h1>
 
-    <h3>2. Get Single Movie</h3>
-    <p><strong>URL:</strong> GET /movies/:title</p>
-    <p><strong>Description:</strong> Return data about a single movie by its title.</p>
+    <h2>API Endpoints</h2>
 
-    <h3>3. Get Genre Data</h3>
-    <p><strong>URL:</strong> GET /genres/:name</p>
-    <p><strong>Description:</strong> Return data about a genre by its name.</p>
+    <table>
+        <tr>
+            <th>Business Logic</th>
+            <th>URL</th>
+            <th>HTTP Method</th>
+            <th>Request Data Format</th>
+            <th>Response Data Body Format</th>
+        </tr>
+        <tr>
+            <td>Return a list of ALL movies to the user</td>
+            <td>/movies</td>
+            <td>GET</td>
+            <td>N/A</td>
+            <td>JSON Array (e.g., [{ movie1 }, { movie2 }, ...])</td>
+        </tr>
+        <tr>
+            <td>Return data (description, genre, director, image URL, whether it's featured or not) about a single movie by title to the user</td>
+            <td>/movies/:title</td>
+            <td>GET</td>
+            <td>N/A</td>
+            <td>JSON Object (e.g., { movie data })</td>
+        </tr>
+        <tr>
+            <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+            <td>/genres/:name</td>
+            <td>GET</td>
+            <td>N/A</td>
+            <td>JSON Object (e.g., { genre data })</td>
+        </tr>
+        <tr>
+            <td>Return data about a director ( birth year ) by name</td>
+            <td>/directors/:name</td>
+            <td>GET</td>
+            <td>N/A</td>
+            <td>JSON Object (e.g., { director data })</td>
+        </tr>
+        <tr>
+            <td>Allow new users to register</td>
+            <td>/users</td>
+            <td>POST</td>
+            <td>JSON</td>
+            <td>JSON Object (e.g., { user data })</td>
+        </tr>
+        <tr>
+            <td>Allow users to update their user info (username)</td>
+            <td>/users/:userId</td>
+            <td>PUT</td>
+            <td>JSON</td>
+            <td>JSON Object (e.g., { updated user data })</td>
+        </tr>
+        <tr>
+            <td>Allow users to add a movie to their list of favorites</td>
+            <td>/users/:userId/favorites</td>
+            <td>POST</td>
+            <td>JSON</td>
+            <td>Text (e.g., "Movie added to user favorites successfully")</td>
+        </tr>
+        <tr>
+            <td>Allow users to remove a movie from their list of favorites</td>
+            <td>/users/:userId/favorites/:movieId</td>
+            <td>DELETE</td>
+            <td>N/A</td>
+            <td>Text (e.g., "Movie removed from user favorites successfully")</td>
+        </tr>
+        <tr>
+            <td>Allow existing users to unregister</td>
+            <td>/users/:userId</td>
+            <td>DELETE</td>
+            <td>N/A</td>
+            <td>Text (e.g., "User with ID {userId} unregistered successfully")</td>
+        </tr>
+    </table>
 
-    <h3>4. Get Director Data</h3>
-    <p><strong>URL:</strong> GET /directors/:name</p>
-    <p><strong>Description:</strong> Return data about a director by their name.</p>
-    
+    <h2>Request Methods</h2>
+
+    <p><strong>GET:</strong> Used for retrieving data from the server.</p>
+    <p><strong>POST:</strong> Used for creating new data on the server.</p>
+    <p><strong>PUT:</strong> Used for updating existing data on the server.</p>
+    <p><strong>DELETE:</strong> Used for deleting data from the server.</p>
+
+    <p>Make sure to use the appropriate request method for each API endpoint.</p>
+
 </body>
 </html>
