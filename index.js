@@ -3,7 +3,10 @@ const Models = require('./models.js');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/myflix', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://0.0.0.0:27017/myFlixDB", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
 const express = require('express');
 const app = express();
 app.use(express.json());
