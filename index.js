@@ -98,13 +98,15 @@ app.get('/', (req, res) => {
 app.get('/movies', async (req, res) => {
   try {
     const movies = await Movies.find();
-    if (!movies) {
-      return res.status(404).send('No movies found');
+
+    if (!movies || movies.length === 0) {
+      return res.status(404).json({ error: 'No movies found' });
     }
+
     res.json(movies);
   } catch (error) {
     console.error('Error fetching movies:', error);
-    res.status(500).send('An error occurred while fetching movies.');
+    res.status(500).json({ error: 'An error occurred while fetching movies.' });
   }
 });
 
@@ -126,17 +128,20 @@ app.get('/movies/:title', async (req, res) => {
 //route to get genre data by name
 app.get('/genres/:name', async (req, res) => {
   const genreName = req.params.name;
-  console.log('Genre Name:', genreName); // Add this line to log the genre name
-
   try {
-    const genre = await Movies.findOne({ 'Genre.Name': genreName }, 'Genre.Name Genre.Description');
-    console.log('Genre Data:', genre); // Add this line to log the fetched genre data
+    const genre = await Movies.findOne({ 'Genre.Name': genreName });
 
     if (!genre) {
+      console.log('Genre not found');
       return res.status(404).send('Genre not found');
     }
 
-    res.json({ Name: genre.Genre.Name, Description: genre.Genre.Description });
+    console.log('Genre Data:', genre);
+
+    res.json({
+      Name: genre.Genre.Name,
+      Description: genre.Genre.Description,
+    });
   } catch (error) {
     console.error('Error fetching genre by name:', error);
     res.status(500).send('An error occurred while fetching the genre.');
