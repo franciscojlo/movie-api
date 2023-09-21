@@ -100,7 +100,7 @@ app.get('/', (req, res) => {
 });
 
 //route to get all movies
-app.get('/movies',passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const movies = await Movies.find();
 
