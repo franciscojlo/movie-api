@@ -1,7 +1,8 @@
-const passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    Models = require('./models.js'),
-    passportJWT = require('passport-jwt');
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const models = require("./models");
+const passportJWT = require("passport-jwt");
+const { model } = require("mongoose");
 
 let Usernames = Models.User,
 JWTStrategy = passportJWT.Strategy,
