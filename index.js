@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const morganodels = require('./models.js');
 const bodyParser = require('body-parser');
 const express = require('express');
 const passport = require('passport');
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
-require('./passport')(passport);
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
