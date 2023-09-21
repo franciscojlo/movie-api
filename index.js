@@ -2,12 +2,17 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const bodyParser = require('body-parser');
 const express = require('express');
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(passport.initialize());
+require('./passport')(passport);
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -95,7 +100,7 @@ app.get('/', (req, res) => {
 });
 
 //route to get all movies
-app.get('/movies', async (req, res) => {
+app.get('/movies',passport.authenticate('jwt', { session: false }), async (req, res) => {
   try {
     const movies = await Movies.find();
 
