@@ -1,21 +1,10 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const app = express();
 
-//body parsing middleware 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+const router = express.Router();
 
-//passport configuration
-app.use(passport.initialize());
-require('./passport')(passport);
-
-const jwtSecret = 'your_jwt_secret'; // This has to be the same key used in the JWTStrategy
-
-require('./passport'); // Your local passport file
-
+const jwtSecret = 'your_jwt_secret';
 
 let generateJWTToken = (user) => {
   return jwt.sign(user, jwtSecret, {
@@ -46,13 +35,3 @@ module.exports = (router) => {
     })(req, res);
   });
 }
-
-//routes
-const authRoutes = require('./auth');
-authRoutes(app, passport);
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
