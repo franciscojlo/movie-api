@@ -9,8 +9,6 @@ const morgan = require('morgan');
 const uuid = require('uuid');
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.use(passport.initialize());
 require('./passport');
@@ -92,7 +90,9 @@ const users = [];
 //middleware logs request
 app.use(morgan('dev'));
 app.use(express.static('public'));
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 //Welcome message
