@@ -1,17 +1,10 @@
 const mongoose = require('mongoose');
 const Models = require('./models.js');
-const morganodels = require('./models.js');
 const bodyParser = require('body-parser');
 const express = require('express');
-const passport = require('passport');
-const jwt = require('jsonwebtoken');
 const morgan = require('morgan');
-const uuid = require('uuid');
 const app = express();
 
-
-app.use(passport.initialize());
-require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -93,6 +86,9 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+let auth = require("./auth")(app);
+const passport = require('passport');
+require("./passport");
 
 
 //Welcome message
