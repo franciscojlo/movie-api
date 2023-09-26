@@ -184,19 +184,29 @@ app.post('/users', async (req, res) => {
 });
 
 //route to allow users to update their username
-app.put('/users/:userId', async (req, res) => {
-  const userId = req.params.userId;
-  const updatedUserData = req.body;
-  try {
-    const updatedUser = await Users.findByIdAndUpdate(userId, updatedUserData, { new: true });
-    if (!updatedUser) {
-      return res.status(404).send('User not found');
-    }
-    res.json(updatedUser);
-  } catch (error) {
-    console.error('Error updating user info:', error);
-    res.status(400).send('User update failed.');
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  //CONDITION TO CHECK ADDED HERE
+  if(req.user.Username !== req.params.Username){
+      return res.status(400).send('Permission denied');
   }
+  //CONDITION ENDS
+  await Users.findOneAndUpdate({ Username: req.params.Username }, {
+      $set:
+      {
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+      }
+  },
+      { new: true }) // This line makes sure that the updated document is returned
+      .then((updatedUser) => {
+          res.json(updatedUser);
+      })
+      .catch((err) => {
+          console.log(err);
+          res.status(500).send('Error: ' + err);
+      })
 });
 
 //route to allow users to add a movie to their favorites
