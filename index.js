@@ -113,7 +113,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 });
 
 //route to get a single movie by title
-app.get('/movies/:title', async (req, res) => {
+app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const movieTitle = req.params.title;
   try {
     const movie = await Movies.findOne({ Title: movieTitle });
@@ -128,7 +128,7 @@ app.get('/movies/:title', async (req, res) => {
 });
 
 //route to get genre data by name
-app.get('/genres/:name', async (req, res) => {
+app.get('/genres/:name', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const genreName = req.params.name;
   try {
     const genre = await Movies.findOne({ 'Genre.Name': genreName });
@@ -151,7 +151,7 @@ app.get('/genres/:name', async (req, res) => {
 });
 
 //route to get director data by name
-app.get('/directors/:name', async (req, res) => {
+app.get('/directors/:name', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const directorName = req.params.name;
   try {
     const director = await Movies.findOne({ 'Director.Name': directorName }, 'Director.Name Director.Bio Director.Birth');
@@ -210,7 +210,7 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 //route to allow users to add a movie to their favorites
-app.post('/users/:userId/favorites', async (req, res) => {
+app.post('/users/:userId/favorites', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const userId = req.params.userId;
   const { movieId } = req.body;
   try {
@@ -228,7 +228,7 @@ app.post('/users/:userId/favorites', async (req, res) => {
 });
 
 //route to allow users to remove a movie from their list of favorites
-app.delete('/users/:userId/favorites/:movieId', async (req, res) => {
+app.delete('/users/:userId/favorites/:movieId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const userId = req.params.userId;
   const movieId = req.params.movieId;
   try {
@@ -251,7 +251,7 @@ app.delete('/users/:userId/favorites/:movieId', async (req, res) => {
 });
 
 // Route to allow existing users to deregister
-app.delete('/users/:userId', async (req, res) => {
+app.delete('/users/:userId', passport.authenticate('jwt', { session: false }), async (req, res) => {
   const userId = req.params.userId;
   try {
     const user = await Users.findByIdAndRemove(userId);
