@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const bodyParser = require('body-parser');
@@ -10,11 +11,18 @@ const { check, validationResult } = require('express-validator');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect("mongodb://0.0.0.0:27017/cfDB", {
+// local host connection
+//mongoose.connect("mongodb://0.0.0.0:27017/cfDB", {
+  //  useNewUrlParser: true,
+  //  useUnifiedTopology: true,
+// });
+
+
+//any IP address host
+mongoose.connect(CONNECTION_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
-
 
 const top10Movies = [
   {
