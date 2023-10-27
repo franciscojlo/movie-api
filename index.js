@@ -19,7 +19,7 @@ const Users = Models.User;
 
 
 //any IP address host
-mongoose.connect(CONNECTION_URI, {
+mongoose.connect(process.env.CONNECTION_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
