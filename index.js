@@ -1,4 +1,3 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const bodyParser = require('body-parser');
@@ -7,6 +6,7 @@ const morgan = require('morgan');
 const app = express();
 const { check, validationResult } = require('express-validator');
 
+//require('dotenv').config();
 
 const Movies = Models.Movie;
 const Users = Models.User;
